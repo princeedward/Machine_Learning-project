@@ -2,7 +2,7 @@
 
 % YOUR CODE GOES HERE
 
-% load ../data/metadata.mat
+load ../data/metadata.mat
 
 Xt_additional_features = []; % Modify this in if needed
 Xq_additional_features = []; % Modify this in if needed
