@@ -1,4 +1,4 @@
-function [KeyFeaturesIndex,RealTopWords] = FeatureSelection_EMD(Xt_counts, Yt, vocab, NumberOfWords, TopWordsNumber, FilterThreshold)
+function [RealTopWordsIndex,RealTopWords] = FeatureSelection_EMD(Xt_counts, Yt, vocab, NumberOfWords, TopWordsNumber, FilterThreshold)
 % This function will generate find the index for important features
 %% This part of the code calculates the most frequenctly appeared words for a given rate
 ImportantWords = zeros(5,NumberOfWords);
@@ -28,4 +28,4 @@ for i=1:5
     RealTopWordsIndex(i,:) = SampledWords(topIX(1:TopWordsNumber));
 end
 % KeyFeaturesWords = unique(reshape(RealTopWords,[],1));
-KeyFeaturesIndex = unique(reshape(RealTopWordsIndex,[],1))';
+% KeyFeaturesIndex = unique(reshape(RealTopWordsIndex,[],1))';

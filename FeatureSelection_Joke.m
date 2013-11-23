@@ -1,4 +1,4 @@
-function [KeyFeaturesIndex,RealTopWords] = FeatureSelection_Joke(Xt_counts, Yt, vocab, NumberOfWords, TopWordsNumber)
+function [RealTopWordsIndex,RealTopWords] = FeatureSelection_Joke(Xt_counts, Yt, vocab, NumberOfWords, TopWordsNumber)
 ImportantWords = zeros(5,NumberOfWords);
 for i=1:5
     AccumulateResult = full(sum(Xt_counts(Yt==i,:),1)');
@@ -16,7 +16,7 @@ RealTopWordsIndex = zeros(5,TopWordsNumber);
 for i=1:5
     for n = 1:NumberOfWords
         [~,col] = find(ImportantWords==ImportantWords(i,n));
-        EMD(i,n) = sum((n-col));
+        EMD(i,n) = sum((col-n));
     end
     [SortedEGD,topIX] = sort(EMD(i,:),'descend');
     SampledWords = ImportantWords(i,:);
@@ -25,4 +25,4 @@ for i=1:5
     RealTopWordsIndex(i,:) = SampledWords(topIX(1:TopWordsNumber));
 end
 % KeyFeaturesWords = unique(reshape(RealTopWords,[],1));
-KeyFeaturesIndex = unique(reshape(RealTopWordsIndex,[],1))';
+% KeyFeaturesIndex = unique(reshape(RealTopWordsIndex,[],1))';
