@@ -101,30 +101,30 @@ profile on
 % --------------- Support Vector ------------------------------------------
 % - The reason it does not converge is the dimension of the feature space
 % - is less than the the number of points
-k = @(x,x2) kernel_intersection(x, x2);
-Yt5 = Yt;
-Yt5(Yt~=5) = 0;
-results5 = kernel_libsvm(Xt_counts, Yt5, Xt_counts, Yt5, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
-Yt4R = Yt;
-Yt4R(Yt4R<4) = 0;
-Yt4 = Yt(Yt5==0);
-Yt4(Yt4~=4) = 0;
-results4 = kernel_libsvm(Xt_counts(Yt5==0), Yt4, Xt_counts(Yt5==0), Yt4, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
-Yt3R = Yt;
-Yt3R(Yt3R<3) = 0;
-Yt3 = Yt(YT4R==0);
-Yt3(Yt3~=3) = 0;
-results3 = kernel_libsvm(Xt_counts(YT4R==0), Yt3, Xt_counts(YT4R==0), Yt3, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
-Yt2 = Yt(Yt3R==0);
-Yt2(Yt2~=2) = 1;
-results2 = kernel_libsvm(Xt_counts(Yt3R==0), Yt2, Xt_counts(Yt3R==0), Yt2, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
-TrainLabelsSVM = zeros(size(Yt,1),1);
-TrainLabelsSVM(results5.yhat==5) = 5;
-TrainLabelsSVM(TrainLabelsSVM==0) = results4.yhat;
-TrainLabelsSVM(TrainLabelsSVM==0) = results3.yhat;
-TrainLabelsSVM(TrainLabelsSVM==0) = results2.yhat;
-
-results = kernel_libsvm(Xt_counts, Yt, Xt_counts, Yt, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
+% k = @(x,x2) kernel_intersection(x, x2);
+% Yt5 = Yt;
+% Yt5(Yt~=5) = 0;
+% results5 = kernel_libsvm(Xt_counts, Yt5, Xt_counts, Yt5, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
+% Yt4R = Yt;
+% Yt4R(Yt4R<4) = 0;
+% Yt4 = Yt(Yt5==0);
+% Yt4(Yt4~=4) = 0;
+% results4 = kernel_libsvm(Xt_counts(Yt5==0), Yt4, Xt_counts(Yt5==0), Yt4, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
+% Yt3R = Yt;
+% Yt3R(Yt3R<3) = 0;
+% Yt3 = Yt(YT4R==0);
+% Yt3(Yt3~=3) = 0;
+% results3 = kernel_libsvm(Xt_counts(YT4R==0), Yt3, Xt_counts(YT4R==0), Yt3, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
+% Yt2 = Yt(Yt3R==0);
+% Yt2(Yt2~=2) = 1;
+% results2 = kernel_libsvm(Xt_counts(Yt3R==0), Yt2, Xt_counts(Yt3R==0), Yt2, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
+% TrainLabelsSVM = zeros(size(Yt,1),1);
+% TrainLabelsSVM(results5.yhat==5) = 5;
+% TrainLabelsSVM(TrainLabelsSVM==0) = results4.yhat;
+% TrainLabelsSVM(TrainLabelsSVM==0) = results3.yhat;
+% TrainLabelsSVM(TrainLabelsSVM==0) = results2.yhat;
+% 
+% results = kernel_libsvm(Xt_counts, Yt, Xt_counts, Yt, k);% ERROR RATE OF INTERSECTION KERNEL GOES HERE
 %% Boost method
 % [NewSamples] = WholeFeatureReducedData(Xt_counts, hugeFeatureSpace);
 % totalStump1 = fitensemble(NewSamples,Yt,'TotalBoost',150,'Tree','kfold',5);
@@ -156,6 +156,57 @@ results = kernel_libsvm(Xt_counts, Yt, Xt_counts, Yt, k);% ERROR RATE OF INTERSE
 % for i= 1:size(PredictPos,1)
 %     PredictLabels(i) = sum((PredictPos(i,:)==max(PredictPos(i,:))).*(1:5));
 % end
+
+% PredictLabels1 = zeros(size(PredictPos1,1),1);
+% for i= 1:size(PredictPos1,1)
+%     PredictLabels1(i) = sum((PredictPos1(i,:)==max(PredictPos1(i,:))).*(1:5));
+% end
+% PredictLabels2 = zeros(size(PredictPos1,1),1);
+% for i= 1:size(PredictPos1,1)
+%     PredictLabels2(i) = sum((PredictPos2(i,:)==max(PredictPos2(i,:))).*(1:5));
+% end
+% PredictLabels3 = zeros(size(PredictPos1,1),1);
+% for i= 1:size(PredictPos1,1)
+%     PredictLabels3(i) = sum((PredictPos3(i,:)==max(PredictPos3(i,:))).*(1:5));
+% end
+% PredictLabels4 = zeros(size(PredictPos1,1),1);
+% for i= 1:size(PredictPos1,1)
+%     PredictLabels4(i) = sum((PredictPos4(i,:)==max(PredictPos4(i,:))).*(1:5));
+% end
+% PredictLabels5 = zeros(size(PredictPos1,1),1);
+% for i= 1:size(PredictPos1,1)
+%     PredictLabels5(i) = sum((PredictPos5(i,:)==max(PredictPos5(i,:))).*(1:5));
+% end
+% -------------------- Linear boost ---------------------------------------
+% Predictors = [PredictLabels1 PredictLabels2 PredictLabels3 PredictLabels4 PredictLabels5];
+% b_normal = glmfit(Predictors,Yt,'normal');
+% yhat_normal = glmval(b_normal,Predictors,'identity');
+% yhat_normal = round(yhat_normal);
+% yhat_normal(yhat_normal<1) = 1;
+% yhat_normal(yhat_normal>5) = 5;
+% error_rate_normal = mean(yhat_normal~=Yt);
+% RMSE_normal = sqrt(mean((yhat_normal-Yt).^2));
+% 
+% b_poisson = glmfit(Predictors,Yt,'poisson');
+% yhat_poisson = glmval(b_poisson,Predictors,'log');
+% yhat_poisson = round(yhat_poisson);
+% yhat_poisson(yhat_poisson<1) = 1;
+% yhat_poisson(yhat_poisson>5) = 5;
+% error_rate_poisson = mean(yhat_poisson~=Yt);
+% RMSE_poisson = sqrt(mean((yhat_poisson-Yt).^2));
+% 
+% b_binomial = glmfit(Predictors,Yt,'inverse gaussian');
+% yhat_binomial = glmval(b_binomial,Predictors,-2);
+% yhat_binomial = round(yhat_binomial);
+% yhat_binomial(yhat_binomial<1) = 1;
+% yhat_binomial(yhat_binomial>5) = 5;
+% error_rate_binomial = mean(yhat_binomial~=Yt);
+% RMSE_binomial = sqrt(mean((yhat_binomial-Yt).^2));
+
+% nb = NaiveBayes.fit(Predictors, Yt);
+% yhat_nb = predict(nb,Predictors);
+% error_rate_nb = mean(yhat_nb~=Yt);
+% RMSE_nb = sqrt(mean((yhat_nb-Yt).^2));
 %% Save the classifier
 % save('Net_LR_Classifier.mat','KeyFeaturesIndex1','KeyFeaturesIndex2','KeyFeaturesIndex3','KeyFeaturesIndex4','KeyFeaturesIndex5','LGclassifier1','LGclassifier2','LGclassifier3','LGclassifier4','LGclassifier5','LGclassifierSec');
 %% This part calculates the training error
